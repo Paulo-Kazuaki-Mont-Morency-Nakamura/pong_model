@@ -1,1 +1,1 @@
-# pong_model
+# Modeling Pong classes in python
