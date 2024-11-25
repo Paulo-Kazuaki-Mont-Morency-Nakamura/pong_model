@@ -1,11 +1,9 @@
 # Here is the main code to run the "Game"
 import time
 import keyboard
-import os
 
 from pong_modules import ball
-from pong_modules import paddle_1
-from pong_modules import score
+from pong_modules import player
 
 # "Game" is a class, and serves access to all variables inside it along with the main loop
 class Game:
@@ -22,8 +20,8 @@ class Game:
 
         # Classes (they are added in "main")
         self.ball = ball.Ball()
-        self.paddle = paddle_1.Paddle()
-        self.score = score.Score()
+        self.player_1 = player.Player(1)
+        self.player_2 = player.Player(2)
 
         # Text information to print
         self.clear_space_text = 8 * '\n'
@@ -32,10 +30,13 @@ class Game:
         # Clearing for menu
         print(self.clear_space_text)
         print('---------- MENU ----------')
-        self.score.draw()
+        self.player_1.draw()
+        self.player_2.draw()
+
         print('\n- Aperte ENTER para iniciar')
 
-        self.score.reset()
+        self.player_1.reset()
+        self.player_2.reset()
         self.ball.reset()
         self.on_menu = True
 
@@ -69,10 +70,15 @@ class Game:
                 self.ball.toggle_movement(True)
 
         else:
+            if keyboard.is_pressed('w'):
+                 self.player_1.paddle.move('up')
+            if keyboard.is_pressed('s'):
+                 self.player_1.paddle.move('down')
+
             if keyboard.is_pressed('up'):
-                 self.paddle.move('down')
-            if keyboard.is_pressed('up'):
-                 self.paddle.move('down')
+                 self.player_2.paddle.move('up')
+            if keyboard.is_pressed('down'):
+                 self.player_2.paddle.move('down')
 
 
         if keyboard.is_pressed('esc'):
@@ -81,12 +87,16 @@ class Game:
 
     def update_game(self):
         # Finishing game if needed
-        attempts = self.score.attempts
-        if attempts >= 4: self.reset_game()
+        p1_score = self.player_1.points
+        p2_score = self.player_2.points
+        if p1_score >= 2 or p2_score >= 2: self.reset_game()
 
         # Updating the ball and checking collisions
+        self.ball.toggle_movement(True)
         self.ball.update()
         self.ball.border_collision(self, self.screen_width, self.screen_height)
+        self.ball.paddle_collision(self.player_1.paddle)
+        self.ball.paddle_collision(self.player_2.paddle)
 
 
     def draw(self):
@@ -96,6 +106,6 @@ class Game:
                 print(self.clear_space_text)
 
                 print('----- Pong MODEL -----')
-                self.score.draw()
+                self.player_1.draw()
+                self.player_2.draw()
                 self.ball.draw()
-                self.paddle.draw()
