@@ -71,14 +71,14 @@ class Game:
 
         else:
             if keyboard.is_pressed('w'):
-                 self.player_1.paddle.move('up')
+                 self.player_1.move('up')
             if keyboard.is_pressed('s'):
-                 self.player_1.paddle.move('down')
+                 self.player_1.move('down')
 
             if keyboard.is_pressed('up'):
-                 self.player_2.paddle.move('up')
+                 self.player_2.move('up')
             if keyboard.is_pressed('down'):
-                 self.player_2.paddle.move('down')
+                 self.player_2.move('down')
 
 
         if keyboard.is_pressed('esc'):
@@ -95,8 +95,8 @@ class Game:
         self.ball.toggle_movement(True)
         self.ball.update()
         self.ball.border_collision(self, self.screen_width, self.screen_height)
-        self.ball.paddle_collision(self.player_1.paddle)
-        self.ball.paddle_collision(self.player_2.paddle)
+        self.ball.paddle_collision(self.player_1)
+        self.ball.paddle_collision(self.player_2)
 
 
     def draw(self):

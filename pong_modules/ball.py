@@ -41,7 +41,7 @@ class Ball:
         if self.x + self.width > paddle.x and self.x < paddle.x + paddle.width and \
                 self.y + self.height > paddle.y and self.y < paddle.y + paddle.height:
             self.speed_x *= -1
-            self.hit_text = f'- A bola bateu na raquete do jogador {paddle.player_index}!'
+            self.hit_text = f'- A bola bateu na raquete do jogador {paddle.index}!'
 
     def border_collision(self, game, max_width, max_height):
         self.hit_text = None
